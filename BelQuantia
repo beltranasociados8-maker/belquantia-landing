@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BelQuantia - Inteligencia Financiera</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal: #00C2A8;
+      --teal-dark: #009e88;
+      --navy: #0D1F3C;
+      --navy-mid: #1a3256;
+      --gray-100: #F7F8FA;
+      --gray-200: #ECEEF2;
+      --gray-400: #9CA3AF;
+      --gray-600: #4B5563;
+      --gray-800: #1F2937;
+      --white: #FFFFFF;
+      --font: 'Inter', sans-serif;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.07);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,0.11);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      color: var(--gray-800);
+      background: var(--white);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0 2rem; height: 68px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-size: 1.25rem; font-weight: 800; color: var(--navy); text-decoration: none; letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--teal); }
+    .nav-links { display: flex; align-items: center; gap: 1.75rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--gray-600); font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-badge { display: inline-flex; align-items: center; gap: 0.35rem; }
+    .badge-beta { font-size: 0.62rem; font-weight: 700; background: var(--teal); color: white; padding: 2px 6px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; }
+    .btn-nav { background: var(--teal); color: white !important; padding: 0.5rem 1.2rem; border-radius: 999px; font-weight: 600; font-size: 0.85rem; transition: background 0.2s, transform 0.15s; }
+    .btn-nav:hover { background: var(--teal-dark) !important; transform: translateY(-1px); }
+
+    /* ─── SHARED ─── */
+    section { padding: 96px 2rem; }
+    .container { max-width: 1080px; margin: 0 auto; }
+    .section-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 1rem; display: block; }
+    h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 800; color: var(--navy); letter-spacing: -0.5px; margin-bottom: 1rem; }
+
+    .btn-primary { display: inline-block; background: var(--teal); color: white; padding: 0.85rem 2rem; border-radius: 999px; font-weight: 700; font-size: 0.95rem; text-decoration: none; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; box-shadow: 0 4px 16px rgba(0,194,168,0.3); }
+    .btn-primary:hover { background: var(--teal-dark); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,194,168,0.4); }
+    .btn-secondary { display: inline-block; background: white; color: var(--navy); padding: 0.85rem 2rem; border-radius: 999px; font-weight: 600; font-size: 0.95rem; text-decoration: none; border: 1.5px solid var(--gray-200); transition: border-color 0.2s, transform 0.15s; }
+    .btn-secondary:hover { border-color: var(--teal); color: var(--teal); transform: translateY(-2px); }
+    .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    /* ─── HERO ─── */
+    #hero { padding: 120px 2rem 96px; background: linear-gradient(160deg, #f0fdfb 0%, #ffffff 60%); text-align: center; }
+    #hero .container { max-width: 800px; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; background: #e6faf7; border: 1px solid #b2ede6; border-radius: 999px; padding: 0.35rem 1rem; font-size: 0.8rem; font-weight: 600; color: var(--teal-dark); margin-bottom: 2rem; }
+    .hero-eyebrow::before { content: ''; width: 8px; height: 8px; background: var(--teal); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(1.4);} }
+    h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; line-height: 1.15; color: var(--navy); letter-spacing: -1px; margin-bottom: 1.5rem; }
+    h1 em { font-style: normal; color: var(--teal); }
+    .hero-sub { font-size: 1.1rem; color: var(--gray-600); max-width: 660px; margin: 0 auto 1.25rem; }
+    .hero-aside { font-size: 0.95rem; color: var(--gray-600); font-style: italic; margin-bottom: 2.5rem; }
+    .btn-group.centered { justify-content: center; }
+
+    /* ─── PROBLEMA ─── */
+    #problema { background: var(--white); }
+    .problema-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+    .problema-card { background: var(--gray-100); border-radius: var(--radius); padding: 2rem; border: 1px solid var(--gray-200); }
+    .problema-card h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.6rem; }
+    .problema-card h3 .icon { width: 32px; height: 32px; background: var(--teal); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .problema-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+    .problema-card li { font-size: 0.9rem; color: var(--gray-600); display: flex; align-items: flex-start; gap: 0.6rem; }
+    .problema-card li::before { content: '·'; color: var(--teal); font-size: 1.4rem; line-height: 1; flex-shrink: 0; }
+    .mensaje-clave { margin-top: 2.5rem; padding: 1.5rem 2rem; background: linear-gradient(135deg,#e6faf7,#f0fdfb); border-left: 3px solid var(--teal); border-radius: var(--radius-sm); font-size: 1rem; font-weight: 500; color: var(--navy-mid); }
+
+    /* ─── SOLUCIÓN ─── */
+    #solucion { background: var(--gray-100); }
+    #solucion .sub { font-size: 1rem; color: var(--gray-600); max-width: 600px; margin-bottom: 3rem; }
+    .pilares { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .pilar { background: white; border-radius: var(--radius); padding: 2rem; border: 1px solid var(--gray-200); box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s; }
+    .pilar:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .pilar.destacado { border: 2px solid var(--teal); position: relative; overflow: hidden; }
+    .pilar.destacado::before { content: 'Diferenciador clave'; position: absolute; top: 0; right: 0; background: var(--teal); color: white; font-size: 0.62rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-bottom-left-radius: 8px; }
+    .pilar-icon { font-size: 1.75rem; margin-bottom: 1rem; }
+    .pilar h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+    .pilar p { font-size: 0.875rem; color: var(--gray-600); line-height: 1.6; }
+    .frase-clave { text-align: center; font-size: 1.05rem; font-weight: 600; color: var(--navy); max-width: 680px; margin: 2.5rem auto 0; }
+
+    /* ─── ECOSISTEMA ─── */
+    #ecosistema { background: var(--navy); color: white; }
+    #ecosistema h2 { color: white; }
+    #ecosistema .sub { color: rgba(255,255,255,0.65); font-size: 1rem; margin-bottom: 3rem; max-width: 560px; }
+    .eco-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5rem; }
+    .eco-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius); padding: 2rem; transition: background 0.2s; }
+    .eco-card:hover { background: rgba(255,255,255,0.1); }
+    .eco-card .eco-icon { font-size: 1.75rem; margin-bottom: 1rem; }
+    .eco-card h3 { font-size: 1rem; font-weight: 700; color: white; margin-bottom: 0.5rem; }
+    .eco-card p { font-size: 0.875rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+    .eco-tag { display: inline-block; margin-top: 0.75rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--teal); background: rgba(0,194,168,0.12); padding: 3px 10px; border-radius: 999px; }
+    #ecosistema .section-label { color: var(--teal); }
+
+    /* ─── KELIXA ─── */
+    #kelixa { background: var(--white); }
+    .kelixa-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    #kelixa h2 { font-size: clamp(1.5rem,3vw,2.1rem); }
+    #kelixa .sub { font-size: 0.95rem; color: var(--gray-600); margin-bottom: 1.25rem; line-height: 1.7; }
+    .validacion-pill { display: inline-flex; align-items: center; gap: 0.5rem; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 999px; padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 600; color: #c2410c; margin-bottom: 1.75rem; }
+    .kelixa-visual { background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 2rem; }
+    .table-compare { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .table-compare th { text-align: left; padding: 0.6rem 0.75rem; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray-400); border-bottom: 2px solid var(--gray-200); }
+    .table-compare td { padding: 0.75rem; border-bottom: 1px solid var(--gray-200); color: var(--gray-600); vertical-align: middle; }
+    .table-compare tr:last-child td { border-bottom: none; }
+    .col-con { color: var(--teal-dark); font-weight: 600; }
+    .col-label { font-weight: 600; color: var(--navy); }
+    .check { color: var(--teal); font-weight: 700; margin-right: 4px; }
+    .cross { color: #EF4444; margin-right: 4px; }
+
+    /* ─── CAPACITACIÓN ─── */
+    #capacitacion { background: var(--gray-100); }
+    #capacitacion h2 { margin-bottom: 0.75rem; }
+    #capacitacion .sub { font-size: 1rem; color: var(--gray-600); max-width: 580px; margin-bottom: 3rem; }
+    .caps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .cap-card { background: white; border-radius: var(--radius); padding: 2rem; border: 1px solid var(--gray-200); box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 0.75rem; transition: transform 0.2s, box-shadow 0.2s; }
+    .cap-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .cap-icon { font-size: 1.75rem; }
+    .cap-tag { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; width: fit-content; }
+    .cap-tag.live { background: #dcfce7; color: #166534; }
+    .cap-tag.soon { background: #fef9c3; color: #854d0e; }
+    .cap-tag.free { background: #e0f2fe; color: #075985; }
+    .cap-card h3 { font-size: 1rem; font-weight: 700; color: var(--navy); }
+    .cap-card p { font-size: 0.875rem; color: var(--gray-600); line-height: 1.6; flex: 1; }
+    .cap-card .cap-cta { font-size: 0.85rem; font-weight: 600; color: var(--teal); text-decoration: none; margin-top: auto; }
+    .cap-card .cap-cta:hover { color: var(--teal-dark); }
+    .metodo-banner { margin-top: 3rem; background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%); border-radius: var(--radius); padding: 2.5rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+    .metodo-banner h3 { font-size: 1.25rem; font-weight: 800; color: white; margin-bottom: 0.5rem; }
+    .metodo-banner p { font-size: 0.9rem; color: rgba(255,255,255,0.7); max-width: 520px; }
+    .metodo-letras { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+    .letra-badge { width: 40px; height: 40px; border-radius: 8px; background: rgba(0,194,168,0.2); border: 1px solid rgba(0,194,168,0.4); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; color: var(--teal); }
+
+    /* ─── PROMPTS ─── */
+    #prompts { background: linear-gradient(160deg,#e6faf7 0%,#f0fdfb 100%); }
+    #prompts h2 { margin-bottom: 0.75rem; }
+    #prompts .sub { font-size: 1rem; color: var(--gray-600); max-width: 560px; margin-bottom: 2.5rem; }
+    .prompts-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.25rem; margin-bottom: 2.5rem; }
+    .prompt-item { background: white; border-radius: var(--radius); padding: 1.5rem; text-align: center; box-shadow: var(--shadow); border: 1px solid var(--gray-200); }
+    .prompt-item .pi-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .prompt-item h4 { font-size: 0.875rem; font-weight: 700; color: var(--navy); margin-bottom: 0.35rem; }
+    .prompt-item p { font-size: 0.8rem; color: var(--gray-600); }
+
+    /* ─── HISTORIA / FOUNDER ─── */
+    #historia { background: var(--white); }
+    .historia-inner { display: grid; grid-template-columns: 1fr 1.6fr; gap: 4rem; align-items: start; }
+    .founder-card { background: var(--gray-100); border-radius: var(--radius); padding: 2rem; border: 1px solid var(--gray-200); text-align: center; }
+    .founder-avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--teal), var(--navy)); display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1rem; }
+    .founder-name { font-size: 1.1rem; font-weight: 800; color: var(--navy); margin-bottom: 0.25rem; }
+    .founder-title { font-size: 0.8rem; color: var(--gray-600); line-height: 1.5; margin-bottom: 1.25rem; }
+    .founder-badges { display: flex; flex-direction: column; gap: 0.5rem; }
+    .f-badge { background: white; border: 1px solid var(--gray-200); border-radius: 999px; padding: 0.35rem 0.9rem; font-size: 0.75rem; font-weight: 600; color: var(--navy-mid); }
+    .f-badge span { color: var(--teal); margin-right: 4px; }
+    .historia-content h2 { margin-bottom: 1rem; }
+    .historia-content .origen { display: inline-flex; align-items: center; gap: 0.6rem; background: #f0fdfb; border: 1px solid #b2ede6; border-radius: 999px; padding: 0.35rem 1rem; font-size: 0.78rem; font-weight: 600; color: var(--teal-dark); margin-bottom: 1.5rem; }
+    .historia-content p { font-size: 0.95rem; color: var(--gray-600); line-height: 1.75; margin-bottom: 1.1rem; }
+    .historia-content p strong { color: var(--navy); }
+    .historia-quote { margin: 1.5rem 0; padding: 1.25rem 1.5rem; background: linear-gradient(135deg,#e6faf7,#f0fdfb); border-left: 3px solid var(--teal); border-radius: var(--radius-sm); font-size: 0.95rem; font-style: italic; color: var(--navy-mid); font-weight: 500; }
+    .timeline { display: flex; gap: 0; margin-top: 1.5rem; }
+    .tl-item { flex: 1; text-align: center; position: relative; padding-top: 1rem; }
+    .tl-item::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gray-200); }
+    .tl-item:first-child::before { left: 50%; }
+    .tl-item:last-child::before { right: 50%; }
+    .tl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--teal); margin: -5px auto 0.6rem; position: relative; z-index: 1; }
+    .tl-year { font-size: 0.72rem; font-weight: 700; color: var(--teal); }
+    .tl-label { font-size: 0.78rem; color: var(--gray-600); }
+
+    /* ─── PARA QUIÉN ─── */
+    #para-quien { background: var(--gray-100); }
+    #para-quien h2 { text-align: center; margin-bottom: 3rem; }
+    .quien-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .quien-card { text-align: center; padding: 2.5rem 2rem; border-radius: var(--radius); background: white; border: 1px solid var(--gray-200); transition: border-color 0.2s, transform 0.2s; }
+    .quien-card:hover { border-color: var(--teal); transform: translateY(-3px); }
+    .quien-card .q-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .quien-card h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+    .quien-card p { font-size: 0.875rem; color: var(--gray-600); }
+
+    /* ─── CTA FINAL ─── */
+    #cta-final { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%); text-align: center; }
+    #cta-final h2 { color: white; max-width: 700px; margin: 0 auto 1rem; }
+    #cta-final .sub { color: rgba(255,255,255,0.7); font-size: 1rem; max-width: 520px; margin: 0 auto 2.5rem; }
+
+    /* ─── FORMULARIO ─── */
+    #formulario { background: white; border-radius: var(--radius); padding: 2.5rem; max-width: 520px; margin: 0 auto; box-shadow: var(--shadow-lg); }
+    #formulario h3 { font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.4rem; }
+    #formulario .form-sub { font-size: 0.875rem; color: var(--gray-600); margin-bottom: 1.75rem; }
+    .form-group { margin-bottom: 1.1rem; }
+    .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--navy); margin-bottom: 0.35rem; }
+    .form-group input, .form-group select { width: 100%; padding: 0.75rem 1rem; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); font-family: var(--font); font-size: 0.9rem; color: var(--gray-800); background: var(--white); outline: none; transition: border-color 0.2s; }
+    .form-group input:focus, .form-group select:focus { border-color: var(--teal); }
+    .btn-form { width: 100%; background: var(--teal); color: white; border: none; padding: 0.9rem; border-radius: 999px; font-family: var(--font); font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.15s; margin-top: 0.5rem; }
+    .btn-form:hover { background: var(--teal-dark); transform: translateY(-1px); }
+    .form-note { text-align: center; font-size: 0.75rem; color: var(--gray-400); margin-top: 1rem; }
+
+    /* ─── FOOTER ─── */
+    footer { background: var(--gray-100); border-top: 1px solid var(--gray-200); padding: 2.5rem 2rem; }
+    .footer-inner { max-width: 1080px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-logo { font-size: 1.1rem; font-weight: 800; color: var(--navy); }
+    .footer-logo span { color: var(--teal); }
+    .footer-tagline { font-size: 0.78rem; color: var(--gray-400); margin-top: 0.2rem; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 0.78rem; color: var(--gray-400); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--navy); }
+    .footer-copy { font-size: 0.75rem; color: var(--gray-400); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      section { padding: 72px 1.25rem; }
+      .problema-grid, .pilares, .eco-grid, .quien-grid, .caps-grid, .kelixa-inner, .historia-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .prompts-grid { grid-template-columns: repeat(2,1fr); }
+      .nav-links { display: none; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .timeline { flex-direction: column; gap: 1rem; }
+      .tl-item::before { display: none; }
+      .metodo-banner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAV ─── -->
+  <nav>
+    <a href="#" class="nav-logo">
+  <img src="logo-belquantia.png" alt="BelQuantia" style="height:28px;">
+</a>Bel<span>Quantia</span></a>
+    <ul class="nav-links">
+      <li><a href="#kelixa" class="nav-badge">Kelixa <span class="badge-beta">beta</span></a></li>
+      <li><a href="#prompts">Biblioteca</a></li>
+      <li><a href="#capacitacion">Capacitación</a></li>
+      <li><a href="#formulario" class="btn-nav">Acceso anticipado</a></li>
+    </ul>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-eyebrow">Plataforma en validación activa</div>
+      <h1>Inteligencia financiera para entender tus números y tomar <em>mejores decisiones</em></h1>
+      <p class="hero-sub">BelQuantia integra herramientas, análisis y recursos con inteligencia artificial para ayudar a emprendedores, empresas y contadores a transformar datos en información clara, confiable y accionable.</p>
+      <p class="hero-aside">"No se trata solo de llevar la contabilidad. Se trata de entender qué está pasando con tu negocio."</p>
+      <div class="btn-group centered">
+        <a href="#formulario" class="btn-primary">Quiero participar y recibir acceso →</a>
+        <a href="#kelixa" class="btn-secondary">Acceso anticipado</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PROBLEMA ─── -->
+  <section id="problema">
+    <div class="container">
+      <span class="section-label">El problema</span>
+      <h2>El problema no es solo la contabilidad.<br />Es no entender los números.</h2>
+      <div class="problema-grid">
+        <div class="problema-card">
+          <h3><span class="icon">🚀</span> Para emprendedores</h3>
+          <ul>
+            <li>No saben con certeza si están ganando o perdiendo</li>
+            <li>Carecen de claridad financiera para crecer con confianza</li>
+            <li>Toman decisiones importantes sin datos concretos</li>
+          </ul>
+        </div>
+        <div class="problema-card">
+          <h3><span class="icon">📊</span> Para contadores</h3>
+          <ul>
+            <li>Procesos manuales que consumen tiempo valioso</li>
+            <li>Errores constantes difíciles de rastrear y corregir</li>
+            <li>Poco tiempo para análisis real y valor estratégico</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mensaje-clave">💡 Hoy se generan más datos que nunca, pero no siempre se convierten en información útil para decidir.</div>
+    </div>
+  </section>
+
+  <!-- ─── SOLUCIÓN ─── -->
+  <section id="solucion">
+    <div class="container">
+      <span class="section-label">La solución</span>
+      <h2>Una nueva forma de gestionar y entender las finanzas</h2>
+      <p class="sub">BelQuantia conecta la precisión técnica del contador con la claridad que necesitan quienes toman decisiones.</p>
+      <div class="pilares">
+        <div class="pilar">
+          <div class="pilar-icon">⚡</div>
+          <h3>Automatización de procesos</h3>
+          <p>Elimina tareas repetitivas, reduce errores y libera tiempo para lo que realmente importa: analizar y decidir.</p>
+        </div>
+        <div class="pilar">
+          <div class="pilar-icon">🔍</div>
+          <h3>Validación inteligente de datos</h3>
+          <p>Detecta inconsistencias, duplicados y anomalías antes de que se conviertan en un problema real para tu operación.</p>
+        </div>
+        <div class="pilar destacado">
+          <div class="pilar-icon">🧠</div>
+          <h3>Análisis financiero con IA</h3>
+          <p>Transforma datos crudos en insights accionables. Visualiza tendencias y obtén respuestas claras sobre la salud de tu negocio.</p>
+        </div>
+      </div>
+      <p class="frase-clave">"Convierte datos contables en información que realmente puedas entender, explicar y usar para decidir."</p>
+    </div>
+  </section>
+
+  <!-- ─── ECOSISTEMA ─── -->
+  <section id="ecosistema">
+    <div class="container">
+      <span class="section-label">El ecosistema</span>
+      <h2>Más que una herramienta:<br />un ecosistema de inteligencia financiera</h2>
+      <p class="sub">Cada componente de BelQuantia está diseñado para sumar valor real en diferentes momentos de tu proceso financiero.</p>
+      <div class="eco-grid">
+        <div class="eco-card">
+          <div class="eco-icon">🛠️</div>
+          <h3>Herramientas con IA</h3>
+          <p>Soluciones para automatizar, validar y analizar información financiera con inteligencia artificial integrada en tu flujo de trabajo.</p>
+          <span class="eco-tag">En desarrollo</span>
+        </div>
+        <div class="eco-card">
+          <div class="eco-icon">📚</div>
+          <h3>Biblioteca de prompts</h3>
+          <p>Recursos prácticos listos para usar: prompts de análisis financiero, validación contable y automatización en Excel.</p>
+          <span class="eco-tag">Disponible pronto</span>
+        </div>
+        <div class="eco-card">
+          <div class="eco-icon">💡</div>
+          <h3>Contenido e insights</h3>
+          <p>Actualizaciones, casos de uso y aprendizajes sobre IA aplicada a las finanzas y la contabilidad del mundo real.</p>
+          <span class="eco-tag">Activo</span>
+        </div>
+        <div class="eco-card">
+          <div class="eco-icon">🤝</div>
+          <h3>Servicios</h3>
+          <p>Acompañamiento y asesoría en procesos financieros para empresas y contadores que buscan una transición ordenada hacia la IA.</p>
+          <span class="eco-tag">Próximamente</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── KELIXA ─── -->
+  <section id="kelixa">
+    <div style="margin-bottom:10px;">
+  <img src="kelixa-logo.png" alt="Kelixa" style="height:40px;">
+</div>
+    <div class="container">
+      <div class="kelixa-inner">
+        <div>
+          <span class="section-label">Primer prototipo</span>
+          <h2>Kelixa: el primer paso del ecosistema BelQuantia</h2>
+          <p class="sub">Estamos desarrollando una herramienta que integra inteligencia artificial en Excel para analizar información financiera, detectar errores y facilitar la toma de decisiones.</p>
+          <p class="sub">Diseñado para contadores que trabajan en Excel y para empresarios que necesitan entender sus números sin procesos complejos.</p>
+          <div class="validacion-pill">🔬 Validando con contadores y emprendedores reales</div>
+          <a href="#formulario" class="btn-primary">Quiero participar y dar feedback →</a>
+        </div>
+        <div class="kelixa-visual">
+          <table class="table-compare">
+            <thead>
+              <tr>
+                <th>Funcionalidad</th>
+                <th>Sin Kelixa</th>
+                <th>Con Kelixa</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="col-label">Validación de datos</td><td><span class="cross">✕</span> Manual y tardía</td><td class="col-con"><span class="check">✓</span> Automática</td></tr>
+              <tr><td class="col-label">Detección de errores</td><td><span class="cross">✕</span> Al final del proceso</td><td class="col-con"><span class="check">✓</span> En tiempo real</td></tr>
+              <tr><td class="col-label">Reportes financieros</td><td><span class="cross">✕</span> Horas de trabajo</td><td class="col-con"><span class="check">✓</span> En minutos</td></tr>
+              <tr><td class="col-label">Análisis financiero</td><td><span class="cross">✕</span> Estático y fijo</td><td class="col-con"><span class="check">✓</span> Dinámico con IA</td></tr>
+              <tr><td class="col-label">Curva de aprendizaje</td><td><span class="cross">✕</span> Nueva plataforma</td><td class="col-con"><span class="check">✓</span> Ya sabes usar Excel</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CAPACITACIÓN ─── -->
+  <section id="capacitacion">
+    <div class="container">
+      <span class="section-label">Capacitación</span>
+      <h2>Aprende a aplicar IA en tus finanzas desde cero</h2>
+      <p class="sub">Talleres, clases y recursos prácticos para contadores y emprendedores que quieren avanzar con inteligencia financiera real.</p>
+      <div class="caps-grid">
+        <div class="cap-card">
+          <div class="cap-icon">🎓</div>
+          <span class="cap-tag soon">Próximamente</span>
+          <h3>Taller: IA aplicada a la contabilidad</h3>
+          <p>Aprende a usar herramientas de inteligencia artificial en tu práctica contable diaria. Casos reales, ejercicios prácticos y resultados inmediatos.</p>
+          <a href="#formulario" class="cap-cta">Me interesa →</a>
+        </div>
+        <div class="cap-card">
+          <div class="cap-icon">📊</div>
+          <span class="cap-tag soon">Próximamente</span>
+          <h3>Clase: Excel inteligente con IA</h3>
+          <p>Transforma cómo usas Excel: automatiza, valida y analiza información financiera con IA integrada. Sin conocimientos técnicos previos.</p>
+          <a href="#formulario" class="cap-cta">Me interesa →</a>
+        </div>
+        <div class="cap-card">
+          <div class="cap-icon">💼</div>
+          <span class="cap-tag free">Para emprendedoras</span>
+          <h3>Método ELEVA</h3>
+          <p>Una ruta práctica que integra educación financiera, organización, mentalidad y liderazgo para que dirijas tu negocio con estructura y confianza.</p>
+          <a href="#formulario" class="cap-cta">Quiero saber más →</a>
+        </div>
+      </div>
+      <div class="metodo-banner">
+        <div>
+          <h3>Método ELEVA - Liderazgo financiero consciente</h3>
+          <p>Desarrollado por Karent Beltrán para emprendedoras que quieren dejar de sobrevivir en sus finanzas y empezar a liderar con claridad y propósito.</p>
+          <div class="metodo-letras">
+            <div class="letra-badge">E</div>
+            <div class="letra-badge">L</div>
+            <div class="letra-badge">E</div>
+            <div class="letra-badge">V</div>
+            <div class="letra-badge">A</div>
+          </div>
+        </div>
+        <a href="#formulario" class="btn-primary" style="white-space:nowrap;">Quiero acceder →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PROMPTS ─── -->
+  <section id="prompts">
+    <div class="container">
+      <span class="section-label">Valor inmediato</span>
+      <h2>Empieza hoy con IA aplicada a tus finanzas</h2>
+      <p class="sub">Recibe prompts listos para análisis financiero, validación contable y automatización en Excel. Sin curva de aprendizaje.</p>
+      <div class="prompts-grid">
+        <div class="prompt-item"><div class="pi-icon">📈</div><h4>Análisis financiero</h4><p>Lee tus estados y detecta tendencias clave</p></div>
+        <div class="prompt-item"><div class="pi-icon">🔎</div><h4>Detección de errores</h4><p>Identifica inconsistencias antes de cerrar el mes</p></div>
+        <div class="prompt-item"><div class="pi-icon">⚙️</div><h4>Automatización</h4><p>Agiliza procesos repetitivos con instrucciones de IA</p></div>
+        <div class="prompt-item"><div class="pi-icon">🤖</div><h4>IA práctica</h4><p>Aplica IA sin ser experto en tecnología</p></div>
+      </div>
+      <div style="text-align:center;">
+        <a href="#formulario" class="btn-primary">Acceder a prompts profesionales →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── HISTORIA / FUNDADORA ─── -->
+  <section id="historia">
+    <div class="container">
+      <div class="historia-inner">
+        <div>
+          <div class="founder-card">
+            <div class="founder-avatar">👩‍💼</div>
+            <div class="founder-name">Karent Beltrán</div>
+            <div class="founder-title">Contadora Pública · Especialista en Gerencia Tributaria<br />Fundadora de BelQuantia</div>
+            <div class="founder-badges">
+              <div class="f-badge"><span>✓</span> +10 años de experiencia</div>
+              <div class="f-badge"><span>✓</span> Facturación electrónica</div>
+              <div class="f-badge"><span>✓</span> Automatización con IA</div>
+              <div class="f-badge"><span>✓</span> Constructora de Kelixa</div>
+            </div>
+          </div>
+        </div>
+        <div class="historia-content">
+          <span class="section-label">Nuestra historia</span>
+          <span class="origen">🏢 Antes: Beltrán &amp; Asociados · Desde 2022</span>
+          <h2>No nos renovamos por moda.<br />Nos renovamos porque vimos lo que era posible.</h2>
+
+          <div class="historia-quote">"La mayoría de las emprendedoras no fracasa por falta de talento. Fracasa por falta de estructura, claridad financiera y herramientas que trabajen para ellas."</div>
+
+          <p>Soy Karent Beltrán, contadora pública con más de una década acompañando a emprendedoras y pequeñas empresas en sus procesos contables y financieros. Lo que empezó como una firma de consultoría tradicional se convirtió en algo mucho más grande cuando entendí un patrón que se repetía en casi todos mis clientes: <strong>tenían datos, pero no tenían claridad.</strong></p>
+
+          <p><strong>BelQuantia nació de esa revelación.</strong> Es la evolución de Beltrán &amp; Asociados Consultores Empresariales SAS, firma fundada en 2022 que durante años ayudó a empresas a organizar su contabilidad y cumplir sus obligaciones tributarias. Hoy, esa experiencia tradicional se fusiona con inteligencia artificial para construir algo que antes no existía: <strong>una plataforma financiera que convierte números en decisiones.</strong></p>
+
+          <p>Mi propia experiencia - pasar de empleada a independiente y descubrir los patrones que frenan a la mayoría - transformó mi enfoque. Hoy construyo <strong>Kelixa</strong>, un prototipo de herramienta con IA integrada en Excel, y desarrollo el <strong>Método ELEVA</strong>: una ruta práctica que combina educación financiera, organización, mentalidad y liderazgo.</p>
+
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2022</div><div class="tl-label">Beltrán &amp; Asociados fundada</div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2024</div><div class="tl-label">Pivote hacia IA financiera</div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2025</div><div class="tl-label">BelQuantia &amp; Kelixa en desarrollo</div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2026</div><div class="tl-label">Validación activa con usuarios</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PARA QUIÉN ─── -->
+  <section id="para-quien">
+    <div class="container">
+      <h2>¿Para quién es BelQuantia?</h2>
+      <div class="quien-grid">
+        <div class="quien-card"><div class="q-icon">🚀</div><h3>Emprendedores</h3><p>Que necesitan claridad financiera real para tomar decisiones con confianza y entender hacia dónde va su negocio.</p></div>
+        <div class="quien-card"><div class="q-icon">📊</div><h3>Contadores</h3><p>Que buscan eficiencia operativa, menos errores y más tiempo para ofrecer análisis de valor a sus clientes.</p></div>
+        <div class="quien-card"><div class="q-icon">🏢</div><h3>Empresas</h3><p>Que quieren tomar mejores decisiones financieras basadas en datos confiables, sin depender de procesos lentos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CTA FINAL + FORMULARIO ─── -->
+  <section id="cta-final">
+    <div class="container">
+      <h2>Participa en la validación y transforma la forma en que entiendes tus finanzas</h2>
+      <p class="sub">Déjanos tus datos, comparte tus retos y recibe acceso a prompts profesionales de IA aplicada a contabilidad y finanzas.</p>
+      <div id="formulario">
+        <h3>Quiero participar y recibir acceso</h3>
+        <p class="form-sub">Participa en la validación y recibe recursos prácticos de IA. Sin costo. Sin compromiso.</p>
+        <div class="form-group"><label for="nombre">Nombre</label><input type="text" id="nombre" placeholder="Tu nombre completo" /></div>
+        <div class="form-group"><label for="email">Correo electrónico</label><input type="email" id="email" placeholder="correo@empresa.com" /></div>
+        <div class="form-group">
+          <label for="rol">Rol</label>
+          <select id="rol">
+            <option value="" disabled selected>Selecciona tu perfil</option>
+            <option value="emprendedor">Emprendedor / Emprendedora</option>
+            <option value="contador">Contador / Contadora</option>
+            <option value="empresa">Empresa</option>
+          </select>
+        </div>
+        <button class="btn-form" type="submit">Quiero participar y recibir acceso →</button>
+        <p class="form-note">🔒 Tu información está segura. No compartimos tus datos con terceros.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">Bel<span>Quantia</span></div>
+        <div class="footer-tagline">Inteligencia Financiera Contable y Análisis Estratégico · Evolución de Beltrán &amp; Asociados</div>
+      </div>
+      <div class="footer-links">
+        <a href="#">Política de privacidad</a>
+        <a href="#">Términos de uso</a>
+        <a href="mailto:contacto@belquantia.com">Contacto</a>
+      </div>
+      <div class="footer-copy">© 2026 BelQuantia. Todos los derechos reservados.</div>
+    </div>
+  </footer>
+
+</body>
+</html>
