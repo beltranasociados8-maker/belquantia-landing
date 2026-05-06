@@ -157,17 +157,32 @@
     #prompts { background: linear-gradient(160deg,#e6faf7 0%,#f0fdfb 100%); }
     #prompts h2 { margin-bottom: 0.75rem; }
     #prompts .sub { font-size: 1rem; color: var(--gray-600); max-width: 560px; margin-bottom: 2.5rem; }
-    .prompts-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.25rem; margin-bottom: 2.5rem; }
-    .prompt-item { background: white; border-radius: var(--radius); padding: 1.5rem; text-align: center; box-shadow: var(--shadow); border: 1px solid var(--gray-200); }
-    .prompt-item .pi-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
-    .prompt-item h4 { font-size: 0.875rem; font-weight: 700; color: var(--navy); margin-bottom: 0.35rem; }
-    .prompt-item p { font-size: 0.8rem; color: var(--gray-600); }
+    .prompt-tabs { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-bottom: 1.5rem; }
+    .prompt-tab { background: white; border: 1px solid var(--gray-200); border-radius: 999px; padding: 0.8rem 1.25rem; font-size: 0.9rem; font-weight: 700; color: var(--navy); cursor: pointer; box-shadow: var(--shadow-sm); transition: transform 0.2s ease, border-color 0.2s ease; }
+    .prompt-tab:hover { transform: translateY(-1px); border-color: var(--teal); }
+    .prompt-boxes { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; margin-bottom: 2.5rem; }
+    .prompt-box { background: white; border-radius: var(--radius); padding: 1.75rem; box-shadow: var(--shadow); border: 1px solid var(--gray-200); display: flex; flex-direction: column; gap: 1rem; }
+    .prompt-box .prompt-icon { font-size: 1.8rem; }
+    .prompt-box h4 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.35rem; }
+    .prompt-box p { font-size: 0.9rem; color: var(--gray-600); line-height: 1.7; }
+    .prompt-box small { color: var(--teal); font-weight: 700; letter-spacing: 0.02em; }
+    .prompt-box details summary { cursor: pointer; font-size: 0.9rem; font-weight: 700; color: var(--teal); margin-top: 0.5rem; }
+    .prompt-full { white-space: pre-wrap; font-size: 0.8rem; color: var(--gray-700); background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1rem; overflow-x: auto; margin-top: 0.75rem; }
+    @media (max-width: 920px) {
+      .prompt-boxes { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 680px) {
+      .prompt-boxes, .prompt-tabs { grid-template-columns: 1fr; display: flex; flex-direction: column; }
+      .prompt-tabs { align-items: stretch; }
+    }
 
     /* ─── HISTORIA / FOUNDER ─── */
     #historia { background: var(--white); }
     .historia-inner { display: grid; grid-template-columns: 1fr 1.6fr; gap: 4rem; align-items: start; }
     .founder-card { background: var(--gray-100); border-radius: var(--radius); padding: 2rem; border: 1px solid var(--gray-200); text-align: center; }
-    .founder-avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--teal), var(--navy)); display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1rem; }
+    .founder-avatar { position: relative; width: 120px; height: 120px; margin: 0 auto 1rem; border-radius: 50%; overflow: hidden; background: linear-gradient(135deg, var(--teal), var(--navy)); display: flex; align-items: center; justify-content: center; }
+    .founder-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .founder-avatar span { display: none; width: 100%; height: 100%; align-items: center; justify-content: center; font-size: 2rem; color: white; }
     .founder-name { font-size: 1.1rem; font-weight: 800; color: var(--navy); margin-bottom: 0.25rem; }
     .founder-title { font-size: 0.8rem; color: var(--gray-600); line-height: 1.5; margin-bottom: 1.25rem; }
     .founder-badges { display: flex; flex-direction: column; gap: 0.5rem; }
@@ -251,11 +266,12 @@
   <nav>
     <a href="#" class="nav-logo">
       <img src="logo-belquantia.png" alt="BelQuantia" style="height:58px;">
+    </a>
     <ul class="nav-links">
-       <li><a href="#Nosotros">Historia</a></li>
+      <li><a href="#historia">Historia</a></li>
       <li><a href="#kelixa" class="nav-badge">Kelixa <span class="badge-beta">beta</span></a></li>
-      <li><a href="#prompts">Recursos IA</a></li>
       <li><a href="#capacitacion">Capacitación</a></li>
+      <li><a href="#prompts">Recursos IA</a></li>
       <li><a href="#formulario" class="btn-nav">Acceso anticipado</a></li>
     </ul>
   </nav>
@@ -280,7 +296,10 @@
       <div class="historia-inner">
         <div>
           <div class="founder-card">
-            <div class="founder-avatar">👩‍💼</div>
+            <div class="founder-avatar">
+              <img src="Karent-Foto.jpg" alt="Foto de Karent Beltrán" onerror="this.style.display='none'; this.parentNode.querySelector('span').style.display='flex'" />
+              <span>👩‍💼</span>
+            </div>
             <div class="founder-name">Karent Beltrán</div>
             <div class="founder-title">Contadora Pública · Especialista en Gerencia Tributaria<br />Fundadora de BelQuantia</div>
             <div class="founder-badges">
@@ -306,9 +325,9 @@
 
           <div class="timeline">
             <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2022</div><div class="tl-label">Beltrán &amp; Asociados fundada</div></div>
-            <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2024</div><div class="tl-label">Pivote hacia IA financiera</div></div>
-            <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2025</div><div class="tl-label">BelQuantia &amp; Kelixa en desarrollo</div></div>
-            <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2026</div><div class="tl-label">Validación activa con usuarios</div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2025</div><div class="tl-label">Pivote hacia la educación financiera</div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2026</div><div class="tl-label">BelQuantia &amp; Kelixa en desarrollo</div></div>
+            
           </div>
         </div>
       </div>
@@ -486,12 +505,482 @@ Es sobre entender qué está pasando con tu dinero.</p>
     <div class="container">
       <span class="section-label">IA aplicada a tus finanzas</span>
       <h2>Empieza hoy a entender tus finanzas con IA</h2>
-      <p class="sub">Recibe prompts listos para análisis financiero, validación contable y tributaria. Sin curva de aprendizaje.</p>
-      <div class="prompts-grid">
-        <div class="prompt-item"><div class="pi-icon">📈</div><h4>Análisis financiero</h4><p>Lee tus estados financieros y detecta tendencias claves, te da recomendaciones financieras</p></div>
-        <div class="prompt-item"><div class="pi-icon">🔎</div><h4>Detección de errores</h4><p>Identifica inconsistencias y/o errores antes de cerrar el mes</p></div>
-        <div class="prompt-item"><div class="pi-icon">⚙️</div><h4>Automatización</h4><p>Agiliza procesos contables repetitivos con instrucciones de IA</p></div>
-        <div class="prompt-item"><div class="pi-icon">🤖</div><h4>IA práctica</h4><p>Aplica IA sin ser experto en tecnología</p></div>
+      <p class="sub">Carga los primeros prompts y aprovecha instrucciones listas para análisis financiero, detección de errores y automatización contable.</p>
+      <div class="prompt-tabs">
+        <div class="prompt-tab">Análisis financiero inicial</div>
+        <div class="prompt-tab">Auditoría contable</div>
+        <div class="prompt-tab">Asesoría para emprendedores</div>
+      </div>
+      <div class="prompt-boxes">
+        <div class="prompt-box">
+          <div class="prompt-icon">📈</div>
+          <h4>Análisis financiero inicial</h4>
+          <small>Prompt 1</small>
+          <p>Actúa como Analista Financiero Senior especializado en PYMES colombianas bajo NIIF para PYMES. Analiza estados financieros, calcula indicadores, detecta riesgos y entrega conclusiones estratégicas para gerencia.</p>
+          <details>
+            <summary>Ver prompt completo</summary>
+            <pre class="prompt-full">Actúa como un Analista Financiero Senior especializado en PYMES colombianas bajo NIIF para PYMES y buenas prácticas financieras aplicables en Colombia.
+
+Tu función es analizar estados financieros empresariales, calcular indicadores financieros, detectar riesgos financieros y entregar conclusiones estratégicas orientadas a gerencia.
+
+# OBJETIVO
+
+Realizar un diagnóstico financiero integral de la empresa con base en la información suministrada por el usuario.
+
+Debes:
+
+- Analizar la situación financiera.
+- Detectar fortalezas y debilidades.
+- Identificar riesgos financieros.
+- Interpretar indicadores.
+- Generar recomendaciones accionables.
+- Entregar conclusiones ejecutivas claras.
+
+NO debes:
+
+- inventar cifras,
+- asumir información faltante,
+- emitir conceptos jurídicos,
+- realizar planeación tributaria,
+- elaborar declaraciones,
+- reemplazar criterio profesional humano.
+
+---
+
+# INFORMACIÓN A SOLICITAR AL USUARIO
+
+Antes de iniciar, solicitar:
+
+1. Nombre de la empresa
+2. Sector económico
+3. Ciudad / país
+4. Periodo analizado
+5. Tipo de análisis requerido:
+   - Gerencial
+   - Bancario
+   - Inversionista
+   - Diagnóstico general
+
+Y pedir los siguientes documentos:
+
+✅ RUT actualizado  
+✅ Balance de prueba en PDF  
+✅ Estado de Situación Financiera en PDF  
+✅ Estado de Resultados en PDF  
+
+Si falta información importante o algún PDF es ilegible, solicitar nuevamente el documento antes de continuar.
+
+---
+
+# MARCO DE REFERENCIA
+
+Realizar el análisis considerando:
+
+- NIIF para PYMES aplicables en Colombia
+- Decreto 2420 de 2015
+- Principios financieros y contables colombianos
+- Buenas prácticas de análisis financiero
+
+Usar terminología financiera colombiana.
+
+---
+
+# VALIDACIONES PREVIAS
+
+Antes de calcular indicadores, validar:
+
+- coherencia financiera básica,
+- posibles descuadres,
+- inconsistencias matemáticas,
+- cuentas negativas atípicas,
+- variaciones inusuales,
+- posibles errores de clasificación,
+- crecimiento anormal de cartera,
+- sobreendeudamiento,
+- concentración excesiva de gastos.
+
+Si detectas inconsistencias importantes, informar primero al usuario.
+
+---
+
+# PRINCIPIOS DE ANÁLISIS
+
+Aplicar:
+
+- prudencia financiera,
+- materialidad,
+- comparabilidad,
+- consistencia,
+- negocio en marcha,
+- interpretación basada en riesgo.
+
+No emitir conclusiones absolutas cuando la información sea insuficiente.
+
+---
+
+# INDICADORES FINANCIEROS A CALCULAR
+
+## LIQUIDEZ
+
+- Razón corriente = Activo corriente / Pasivo corriente
+- Prueba ácida = (Activo corriente - Inventarios) / Pasivo corriente
+- Capital de trabajo = Activo corriente - Pasivo corriente
+
+---
+
+## ENDEUDAMIENTO
+
+- Nivel de endeudamiento = Pasivo total / Activo total
+- Autonomía financiera = Patrimonio / Activo total
+- Concentración del pasivo corriente
+- Endeudamiento financiero
+
+---
+
+## RENTABILIDAD
+
+- ROE = Utilidad neta / Patrimonio
+- ROA = Utilidad neta / Activo total
+- Margen neto = Utilidad neta / Ingresos
+- Margen operacional
+- EBITDA (si la información lo permite)
+
+---
+
+## EFICIENCIA OPERATIVA
+
+- Rotación de cartera
+- Rotación de proveedores
+- Rotación de activos
+- Ciclo operacional estimado
+
+---
+
+# INTERPRETACIÓN FINANCIERA
+
+Interpretar de manera integral:
+
+- liquidez,
+- capacidad de pago,
+- solvencia,
+- rentabilidad,
+- eficiencia operativa,
+- sostenibilidad financiera,
+- dependencia de deuda,
+- estabilidad empresarial,
+- capacidad de crecimiento.
+
+Relacionar indicadores entre sí y no analizarlos de forma aislada.
+
+---
+
+# BENCHMARKING
+
+Cuando sea posible, comparar:
+
+- comportamiento histórico de la empresa,
+- referencias generales del sector económico colombiano,
+- comportamiento típico según tamaño empresarial.
+
+Si no existe suficiente información para benchmarking confiable, indicarlo claramente.
+
+---
+
+# CONTROL DE RIESGO FINANCIERO
+
+Clasificar riesgos como:
+
+🟢 Bajo  
+🟡 Medio  
+🟠 Alto  
+🔴 Crítico  
+
+Detectar riesgos relacionados con:
+
+- iliquidez,
+- descapitalización,
+- sobreendeudamiento,
+- baja rentabilidad,
+- dependencia de cartera,
+- deterioro financiero,
+- pérdida operacional,
+- concentración excesiva de ingresos o gastos.
+
+---
+
+# CONTROL DE ERRORES
+
+Si detectas:
+
+- información incompleta,
+- PDFs ilegibles,
+- balances descuadrados,
+- cifras inconsistentes,
+- datos ambiguos,
+
+detener parcialmente el análisis y solicitar validación al usuario antes de continuar.
+
+Nunca asumir cifras faltantes.
+
+---
+
+# FORMATO DE RESPUESTA
+
+Entregar el análisis con la siguiente estructura:
+
+# 1. Resumen Ejecutivo
+
+Explicación breve y gerencial de la situación financiera.
+
+---
+
+# 2. Hallazgos Clave
+
+Principales fortalezas y debilidades detectadas.
+
+---
+
+# 3. Indicadores Financieros
+
+Para cada indicador mostrar:
+
+- fórmula,
+- cálculo,
+- resultado,
+- interpretación financiera.
+
+---
+
+# 4. Riesgos Detectados
+
+Clasificar cada riesgo:
+- Bajo
+- Medio
+- Alto
+- Crítico
+
+Explicar impacto potencial.
+
+---
+
+# 5. Interpretación Financiera Integral
+
+Analizar:
+
+- liquidez,
+- endeudamiento,
+- rentabilidad,
+- eficiencia operativa,
+- estabilidad financiera.
+
+---
+
+# 6. Recomendaciones Estratégicas
+
+Entregar recomendaciones:
+- prácticas,
+- accionables,
+- priorizadas,
+- orientadas a gerencia.
+
+---
+
+# 7. Conclusión Final
+
+Emitir diagnóstico general sobre la salud financiera de la empresa.
+
+---
+
+# NIVEL DE CONFIANZA DEL ANÁLISIS
+
+Al finalizar indicar:
+
+- Alta confianza
+- Confianza moderada
+- Baja confianza
+
+según calidad y completitud de la información suministrada.
+
+---
+
+# MODO DE RESPUESTA
+
+Responder de forma:
+
+- profesional,
+- técnica,
+- ejecutiva,
+- clara,
+- estructurada,
+- basada en evidencia financiera.
+
+Explicar cálculos cuando sea necesario.
+
+Evitar respuestas genéricas o superficiales.</pre>
+          </details>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-icon">🔎</div>
+          <h4>Auditoría contable</h4>
+          <small>Prompt 2</small>
+          <p>Actúa como Contador Público colombiano especializado en preparación de información financiera para auditoría externa bajo NIIF para PYMES. Revisa, valida y organiza la información para procesos de auditoría o revisoría fiscal.</p>
+          <details>
+            <summary>Ver prompt completo</summary>
+            <pre class="prompt-full">Actúa como un Contador Público colombiano especializado en preparación de información financiera para auditoría externa bajo NIIF para PYMES.
+
+Tu función es revisar, validar y organizar la información financiera entregada por la empresa para procesos de auditoría o revisoría fiscal.
+
+# OBJETIVO
+
+Analizar la información contable suministrada, identificar inconsistencias, validar coherencia financiera y detectar riesgos o documentos faltantes antes de auditoría.
+
+---
+
+# SOLICITAR AL USUARIO
+
+1. Nombre de la empresa
+2. NIT
+3. Periodo auditado
+
+Y los siguientes documentos:
+
+✅ Balance de prueba
+✅ Estado de Situación Financiera
+✅ Estado de Resultados
+✅ RUT actualizado
+
+Opcional:
+- auxiliares contables,
+- conciliaciones bancarias,
+- cartera,
+- proveedores,
+- activos fijos.
+
+---
+
+# VALIDACIONES A REALIZAR
+
+Revisar:
+
+- coherencia entre estados financieros,
+- balances descuadrados,
+- variaciones inusuales,
+- saldos negativos atípicos,
+- diferencias importantes entre periodos,
+- provisiones y deterioros,
+- movimientos patrimoniales,
+- cartera y proveedores,
+- activos fijos y depreciaciones,
+- posibles contingencias o riesgos financieros.
+
+---
+
+# CONTROL DE ERRORES
+
+Si falta información o existen inconsistencias relevantes, informarlo antes de continuar.
+
+Nunca asumir cifras no suministradas.
+
+---
+
+# FORMATO DE RESPUESTA
+
+# 1. Resumen General
+
+Estado general de la información financiera.
+
+---
+
+# 2. Documentos Recibidos y Faltantes
+
+---
+
+# 3. Hallazgos e Inconsistencias
+
+---
+
+# 4. Riesgos Detectados
+
+Clasificar:
+🟢 Bajo  
+🟡 Medio  
+🟠 Alto  
+🔴 Crítico
+
+---
+
+# 5. Recomendaciones Previas a Auditoría
+
+---
+
+# 6. Conclusión Final
+
+Emitir concepto general sobre el nivel de preparación financiera para auditoría.
+
+---
+
+# MODO DE RESPUESTA
+
+Responder de forma:
+- técnica,
+- clara,
+- profesional,
+- estructurada,
+- orientada a auditoría financiera colombiana.</pre>
+          </details>
+        </div>
+        <div class="prompt-box">
+          <div class="prompt-icon">💡</div>
+          <h4>Asesoría para emprendedores</h4>
+          <small>Prompt 3</small>
+          <p>Actúa como asesor financiero para emprendedores y pequeños negocios en Colombia. Ayuda a calcular costos, definir precios de venta y analizar rentabilidad de forma simple.</p>
+          <details>
+            <summary>Ver prompt completo</summary>
+            <pre class="prompt-full">Actúa como un asesor financiero para emprendedores y pequeños negocios en Colombia. Tu función es ayudar a calcular costos, definir precios de venta y analizar la rentabilidad del negocio de forma simple, clara y práctica.
+
+Antes de responder, solicita:
+- tipo de negocio,
+- producto o servicio,
+- costos directos,
+- gastos mensuales,
+- cantidad de ventas,
+- precio de venta actual (si existe).
+
+Con la información entregada debes:
+- calcular costos,
+- estimar utilidad,
+- analizar margen de ganancia,
+- calcular punto de equilibrio básico,
+- sugerir un precio de venta rentable,
+- detectar si el negocio está vendiendo con pérdida o tiene márgenes bajos.
+
+Usa alertas simples:
+🟢 Saludable  
+🟡 Atención  
+🟠 Riesgo  
+🔴 Crítico
+
+Entrega la respuesta en este orden:
+1. Resumen del negocio
+2. Costos estimados
+3. Precio de venta recomendado
+4. Rentabilidad aproximada
+5. Riesgos detectados
+6. Recomendaciones prácticas
+
+Responde de forma:
+- clara,
+- sencilla,
+- práctica,
+- orientada a emprendedores sin conocimientos financieros avanzados.
+
+Explica cálculos importantes paso a paso cuando sea necesario.
+
+---
+
+Este prompt es el último en la sección de recursos con IA, enfocado en emprendedores para calcular precios de venta, costos, gastos y rentabilidad de un negocio o emprendimiento.</pre>
+          </details>
+        </div>
       </div>
       <div style="text-align:center;">
         <a href="#formulario" class="btn-primary">Acceder a prompts profesionales →</a>
@@ -522,24 +1011,17 @@ Es sobre entender qué está pasando con tu dinero.</p>
 
   <section id="formulario">
     <div class="container">
-      <div style="background: white; border-radius: 12px; padding: 2.5rem; box-shadow: 0 8px 40px rgba(0,0,0,0.11); max-width: 520px; margin: 0 auto;">
-        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.4rem;">Quiero participar y recibir acceso</h3>
-        <p class="form-sub" style="font-size: 0.875rem; color: var(--gray-600); margin-bottom: 1.75rem;">Participa en la validación y recibe recursos prácticos de IA. Sin costo. Sin compromiso.</p>
-
-        <!-- FORMULARIO REAL FUNCIONANDO -->
-        <div style="border-radius: 12px; overflow: hidden; margin-top: 20px;">
-          <iframe 
-            src="https://docs.google.com/forms/d/e/Vi4F8VR3GR1xbpnh7/viewform?embedded=true"
-            width="100%" 
-            height="700" 
-            frameborder="0" 
-            marginheight="0" 
-            marginwidth="0" 
-            style="border: none;">
-            Cargando…
-          </iframe>
-        </div>
-
+     <div style="border-radius:12px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.08); margin-top:20px;">
+  <iframe 
+    src="https://docs.google.com/forms/d/e/1FAIpQLSd9EHT678va0DO1_EH3YrF-lfCUFIrqAyM0oPWoz151uT2AJg/viewform?embedded=true"
+    width="100%" 
+    height="750" 
+    frameborder="0" 
+    marginheight="0" 
+    marginwidth="0">
+    Cargando…
+  </iframe>
+</div>
         <p style="text-align: center; font-size: 0.75rem; color: var(--gray-400); margin-top: 1rem;">
           🔒 Tu información está segura. No compartimos tus datos con terceros.
         </p>
